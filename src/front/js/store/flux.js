@@ -13,7 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			cohorte: 'Spain-72',
+			user: 'javi'
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
