@@ -40,6 +40,12 @@ export const Contact = () => {
 
   const edit = (id) => {
     editContact === id ? setEditContact(null) :setEditContact(id);
+    //const currentContact = contact.contacts.find((c) => c.id === parseInt(params.id)) || {}
+    const contact = store.contacts.find((c) => c.id === parseInt(id))
+    setFullName(contact.name);
+    setEmail(contact.email);
+    setPhone(contact.phone);
+    setAddress(contact.address);
   }
 
   useEffect(()=>{
