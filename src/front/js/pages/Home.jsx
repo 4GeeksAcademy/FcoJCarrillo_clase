@@ -3,14 +3,17 @@ import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import { User } from "./User.jsx";
+import { Form } from "./Form.jsx";
+import Layout from "../Layout.jsx";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
 		<div className="text-center mt-5">
-			<User/>
+			<Layout/>
 			{/* <h1>Hello Rigo!!</h1>
+			<User/>
 			<p>
 				<img src={rigoImageUrl} />
 			</p>
