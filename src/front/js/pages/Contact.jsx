@@ -5,10 +5,10 @@ import rigoImageUrl from "../../img/rigo-baby.jpg";
 
 
 export const Contact = () => {
-  const deleteContacts = (id) => {
+  const deleteContacts = async (id) => {
     if(confirm('Do you want to delete this contact?')){
 
-      actions.deleteContact(id);
+      await actions.deleteContact(id);
       actions.getUserContactList();
     }
   }

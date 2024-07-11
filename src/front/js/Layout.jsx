@@ -13,6 +13,8 @@ import { Single } from "./pages/Single.jsx";
 import { Error404 } from "./pages/Error404.jsx";
 import { Form } from "./pages/Form.jsx";
 import { Contact } from "./pages/Contact.jsx";
+import { HomePage } from "./pages/HomePage.jsx";
+import { StarShips } from "./pages/StarShips.jsx";
 
 
 //create your first component
@@ -29,9 +31,11 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Contact/>} path='/' />
+                        <Route element={<HomePage/>} path="/"/>
+                        <Route element={<Contact/>} path='/Contact' />
                         <Route element={<Form />} path='/Form' />
                         <Route element={<Error404/>} path="*" />
+                        <Route element={<StarShips/>} path="/StarShips" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
