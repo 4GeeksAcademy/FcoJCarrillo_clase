@@ -18,17 +18,155 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: 'javi',
 			host: 'https://playground.4geeks.com/contact',
 			contacts: [],
-			currentContact: null
+			currentContact: null,
+
+		//STAR WARS
+			hostStarWars: 'https://www.swapi.tech/api',
+			diferentsHosts: [],
+			characters:[],
+			vehicles:[],
+			planets:[],
+			category:[],
+			favorites:[]
+
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
+			//setCurrentContact: (contact) => {setStore({currentContact:contact})}
+			//set,
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
+			},
+			getHost:  async () =>{
+				const url = `${process.env.URISWAPITECH}`;
+				const options = {
+					method:'GET'
+				};
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					setStore({diferentsHosts:data.result});
+					console.log(getStore().diferentsHosts);
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			getCharacter: async () =>{
+				const url = `${process.env.URISWAPITECH}/people`;
+				const options = {
+					method:'GET'
+				};
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					setStore({characters:data.results});
+					console.log(getStore().characters);
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			addFavorite:(title)=>{
+				setStore({favorites:[...getStore().favorites, title]})
+			},
+			removeFavorite:(id) =>{
+				setStore({favorites: getStore().favorites.filter((item,i)=>{return i!= id;})})
+			},
+			getCategory:async (category) =>{
+				const url = `${process.env.URISWAPITECH}/${category}`;
+				const options = {
+					method:'GET'
+				}
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					return data.results;
+					//setStore({category:data.results});
+					//console.log(getStore().category);
+					//uid para las imagenes
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			getCategoryDetails: async (category, id) =>{
+				const url = `${process.env.URISWAPITECH}/${category}/${id}`;
+				const options = {
+                    method:'GET'
+                };
+				console.log(url);
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					console.log(data.result.properties);
+					return data.result.properties;
+					//return data.results.properties;
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			getVehicles: async () =>{
+				const url = `${process.env.URISWAPITECH}/starships`;
+				const options = {
+					method:'GET'
+				};
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					setStore({vehicles:data.results});
+					console.log(getStore().vehicles);
+					//uid para las imagenes
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			getPlanets: async () =>{
+				const url = `${process.env.URISWAPITECH}/planets`;
+				const options = {
+					method:'GET'
+				};
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					setStore({planets:data.results
+					});
+					console.log(getStore().planets.results);
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
 			},
 			//AQUI SE AÑADEN LOS GET, POST
 			getUserContactList: async () =>{
 				const uri = `${getStore().host}/agendas/${getStore().user}/contacts`;
-				console.log(uri);
+				//console.log(uri);
 				const options ={
 					method:'GET'
 				};
@@ -132,7 +270,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setCurrentContact: (contact) => {setStore({ currentContact: contact })}
 			},
 			setForm: (newText) => {setStore({form: newText})}
-			//setCurrentContact: (contact) => {setStore({currentContact:contact})}
 		}
 	};
 };
