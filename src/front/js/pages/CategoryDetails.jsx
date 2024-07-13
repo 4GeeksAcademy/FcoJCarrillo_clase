@@ -34,11 +34,13 @@ export const CategoryDetails = () => {
                             </Col>
                             <Col md={6}>
                                 <Card className="mx-2 my-2" style={{ width: '18rem' }} key={currentObject.uid}>
-                                    <Card.Title className="text-center">{currentObject.name}</Card.Title>
+                                    <Card.Title className="text-center font-weight-bold">{currentObject.name}</Card.Title>
                                     <Card.Body>
-                                        <Card.Text>
-                                            {currentObject.gender}
-                                        </Card.Text>
+                                        <Card.Text><strong>Birth_Year:</strong>{currentObject.gender}</Card.Text>
+                                        <Card.Text><strong>Height:</strong>{currentObject.height}</Card.Text>
+                                        <Card.Text><strong>Eye Color:</strong>{currentObject.eye_color}</Card.Text>
+                                        <Card.Text><strong>Skin Color:</strong>{currentObject.skin_color}</Card.Text>
+                                        <Card.Text><strong>Gender:</strong>{currentObject.gender}</Card.Text>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -54,11 +56,13 @@ export const CategoryDetails = () => {
                             </Col>
                             <Col md={6}>
                                 <Card className="mx-2 my-2" style={{ width: '18rem' }} key={currentObject.uid}>
-                                    <Card.Title className="text-center">{currentObject.name}</Card.Title>
+                                    <Card.Title className="text-center font-weight-bold">{currentObject.name}</Card.Title>
                                     <Card.Body>
-                                        <Card.Text>
-                                            {currentObject.classification}
-                                        </Card.Text>
+                                        <Card.Text><strong>Classification:</strong> {currentObject.classification}</Card.Text>
+                                        <Card.Text><strong>Designation:</strong>{currentObject.designation}</Card.Text>
+                                        <Card.Text><strong>Average Height:</strong>{currentObject.average_height}</Card.Text>
+                                        <Card.Text><strong>Hair colors:</strong>{currentObject.hair_colors}</Card.Text>
+                                        <Card.Text><strong>Language:</strong>{currentObject.language}</Card.Text>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -74,11 +78,13 @@ export const CategoryDetails = () => {
                             </Col>
                             <Col md={6}>
                                 <Card className="mx-2 my-2" style={{ width: '18rem' }} key={currentObject.uid}>
-                                    <Card.Title className="text-center">{currentObject.name}</Card.Title>
+                                    <Card.Title className="text-center font-weight-bold">{currentObject.name}</Card.Title>
                                     <Card.Body>
-                                        <Card.Text>
-                                            {currentObject.climate}
-                                        </Card.Text>
+                                        <Card.Text><strong>Diameter:</strong>{currentObject.diameter}</Card.Text>
+                                        <Card.Text><strong>Rotation Period:</strong>{currentObject.rotation_period}</Card.Text>
+                                        <Card.Text><strong>Gravity:</strong>{currentObject.gravity}</Card.Text>
+                                        <Card.Text><strong>Terrain:</strong>{currentObject.terrain}</Card.Text>
+                                        <Card.Text><strong>Climate:</strong>{currentObject.climate}</Card.Text>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -91,58 +97,58 @@ export const CategoryDetails = () => {
     }
     /*
     objetos planetas
-"properties": {
-            "diameter": "10465",
-            "rotation_period": "23",
-            "orbital_period": "304",
-            "gravity": "1 standard",
-            "population": "200000",
-            "climate": "arid",
-            "terrain": "desert",
-            "surface_water": "1",
-            "created": "2024-07-13T02:58:18.074Z",
-            "edited": "2024-07-13T02:58:18.074Z",
-            "name": "Tatooine",
-            "url": "https://www.swapi.tech/api/planets/1"
+"properties: {
+            "diameter: "10465",
+            "rotation_period: "23",
+            "orbital_period: "304",
+            "gravity: "1 standard",
+            "population: "200000",
+            "climate: "arid",
+            "terrain: "desert",
+            "surface_water: "1",
+            "created: "2024-07-13T02:58:18.074Z",
+            "edited: "2024-07-13T02:58:18.074Z",
+            "name: "Tatooine",
+            "url: "https://www.swapi.tech/api/planets/1"
             12
         }
         
             objetos people
-                   "properties": {
-            "height": "172",
-            "mass": "77",
-            "hair_color": "blond",
-            "skin_color": "fair",
-            "eye_color": "blue",
-            "birth_year": "19BBY",
-            "gender": "male",
-            "created": "2024-07-13T02:58:18.071Z",
-            "edited": "2024-07-13T02:58:18.071Z",
-            "name": "Luke Skywalker",
-            "homeworld": "https://www.swapi.tech/api/planets/1",
-            "url": "https://www.swapi.tech/api/people/1"
+                   "properties: {
+            "height: "172",
+            "mass: "77",
+            "hair_color: "blond",
+            "skin_color: "fair",
+            "eye_color: "blue",
+            "birth_year: "19BBY",
+            "gender: "male",
+            "created: "2024-07-13T02:58:18.071Z",
+            "edited: "2024-07-13T02:58:18.071Z",
+            "name: "Luke Skywalker",
+            "homeworld: "https://www.swapi.tech/api/planets/1",
+            "url: "https://www.swapi.tech/api/people/1"
             13
         },
         objetos species
-            "classification": "mammal",
-            "designation": "sentient",
-            "average_height": "180",
-            "average_lifespan": "120",
-            "hair_colors": "blonde, brown, black, red",
-            "skin_colors": "caucasian, black, asian, hispanic",
-            "eye_colors": "brown, blue, green, hazel, grey, amber",
-            "homeworld": "https://www.swapi.tech/api/planets/1",
-            "language": "Galactic Basic",
-            "people": [
+            "classification: "mammal",
+            "designation: "sentient",
+            "average_height: "180",
+            "average_lifespan: "120",
+            "hair_colors: "blonde, brown, black, red",
+            "skin_colors: "caucasian, black, asian, hispanic",
+            "eye_colors: "brown, blue, green, hazel, grey, amber",
+            "homeworld: "https://www.swapi.tech/api/planets/1",
+            "language: "Galactic Basic",
+            "people: [
                 "https://www.swapi.tech/api/people/66",
                 "https://www.swapi.tech/api/people/67",
                 "https://www.swapi.tech/api/people/68",
                 "https://www.swapi.tech/api/people/74"
             ],
-            "created": "2024-07-13T02:58:18.076Z",
-            "edited": "2024-07-13T02:58:18.076Z",
-            "name": "Human",
-            "url": "https://www.swapi.tech/api/species/1"
+            "created: "2024-07-13T02:58:18.076Z",
+            "edited: "2024-07-13T02:58:18.076Z",
+            "name: "Human",
+            "url: "https://www.swapi.tech/api/species/1"
     14
     */
     useEffect(() => {
