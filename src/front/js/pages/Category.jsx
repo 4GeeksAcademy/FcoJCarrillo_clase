@@ -23,6 +23,9 @@ export const Category = () => {
         setCurrentMap(await actions.getCategory(param.category));
         console.log(currentMap);
     }
+    const addfavorite = async (parameter) => {
+        await actions.addFavorite(parameter);
+    }
     useEffect(()=>{
         if(param.category === "people") setImage("https://starwars-visualguide.com/assets/img/characters");
         else if(param.category === "species") setImage("https://starwars-visualguide.com/assets/img/species");
@@ -51,7 +54,7 @@ export const Category = () => {
                         <Link to={`/${param.category}/${item.uid}`}>
                             <Button onClick={() =>handleProperties(param.category,item.uid)} variant="primary">More information</Button>
                             </Link>
-                            <Button variant="primary"><i className="far fa-heart"></i></Button>
+                            <Button onClick={() =>addfavorite(item.name)} variant="primary"><i className="far fa-heart"></i></Button>
                         </Card.Body>
                     </Card>
                     //<i class="fas fa-id-card"></i>

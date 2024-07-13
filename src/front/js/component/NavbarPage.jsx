@@ -14,36 +14,52 @@ export const NavbarPage = () => {
 	const { actions, store } = useContext(Context);
 	const [category, setCategory] = useState("");
 
-
+	const remotefavorite = (id) => {
+		actions.removeFavorite(id);
+	}
 	const handleClick = async (tipo) => {
 		await actions.getCategory(tipo);
 		setCategory(tipo);
 	}
 
 	return (
+
+		// <nav className="navbar navbar-light bg-light">
+		// 	<div className="container">
+		// 		<Link to="/">
+		// 			<span className="navbar-brand mb-0 h1">Contactos "poner nombre del usuario"</span>
+		// 		</Link>
+		// 		<div className="ml-auto">
+		// 			<Link to={`/${category}`}>
+		// 				<button onClick={() => handleClick("people")} className="btn btn-primary">People</button>
+		// 			</Link>
+		// 			<Link to={`/${category}`}>
+		// 				<button onClick={() => handleClick("planets")} className="btn btn-primary">PLanets</button>
+		// 			</Link>
+		// 			<Link to={`/${category}`}>
+		// 				<button onClick={() => handleClick("species")} className="btn btn-primary">Species</button>
+		// 			</Link>
+		// 			<Link to="/Form">
+		// 				<button className="btn btn-primary">Crear nuevo usuario</button>
+		// 			</Link>
+		// 			{/* <li className="dropdown">
+		// 				<a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		// 					Dropdown
+		// 				</a>
+		// 				<ul>
+		// 					{store.favorites.map((item, id) =>
+		// 						<li key={id}>
+		// 							<Link to={`/${category}/${item}`}>
+		// 								<Button onClick={() => remoteitemorire(item)} variant="outline-danger"><i className="fas fa-trash"></i></Button> {item}
+		// 							</Link>
+		// 						</li>
+		// 					)}
+		// 				</ul>
+		// 			</li> */}
+		// 		</div>
+		// 	</div>
+		// </nav>
 		
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">Contactos "poner nombre del usuario"</span>
-				</Link>
-				<div className="ml-auto">
-					<Link to={`/${category}`}>
-						<button onClick={()=>handleClick("people")} className="btn btn-primary">People</button>
-					</Link>
-					<Link to={`/${category}`}>
-						<button onClick={()=>handleClick("planets")} className="btn btn-primary">PLanets</button>
-					</Link>
-					<Link to={`/${category}`}>
-						<button onClick={()=>handleClick("species")} className="btn btn-primary">Species</button>
-					</Link>
-					<Link to="/Form">
-						<button className="btn btn-primary">Crear nuevo usuario</button>
-					</Link>
-				</div>
-			</div>
-		</nav>
-		/*
 		<>
 		{['sm'].map((expand) => (
 			<Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
@@ -62,6 +78,7 @@ export const NavbarPage = () => {
 						</Offcanvas.Header>
 						<Offcanvas.Body>
 							<Nav className="justify-content-end flex-grow-1 pe-3">
+							    
 								<Nav.Link href="/">Home</Nav.Link>
 								<Nav.Link href="/Contact">ContactList</Nav.Link>
 								<NavDropdown
@@ -71,42 +88,43 @@ export const NavbarPage = () => {
 									<NavDropdown.Item>
 									<Link to={`/${category}`}>
 									
-										<Button onClick={()=>handleClick("people")} variant="outline-success"><i class="fas fa-user-astronaut"></i>-People</Button>
+										<Button onClick={()=>handleClick("people")} variant="outline-success"><i className="fas fa-user-astronaut"></i>-People</Button>
 										</Link>
 										</NavDropdown.Item>
 									<NavDropdown.Item href={`/${category}`}>
 									<Link to={`/${category}`}>
 									
-										<Button onClick={()=>handleClick("planets")} variant="outline-success"><i class="fas fa-globe"></i>-Planets</Button>
+										<Button onClick={()=>handleClick("planets")} variant="outline-success"><i className="fas fa-globe"></i>-Planets</Button>
 										</Link>
 									</NavDropdown.Item>
 									<NavDropdown.Item>
 									<Link to={`/${category}`}>
 									
-										<Button onClick={()=>handleClick("species")} variant="outline-success"><i class="fas fa-table"></i>-Species</Button>
+										<Button onClick={()=>handleClick("species")} variant="outline-success"><i className="fas fa-table"></i>-Species</Button>
 										</Link>
 									</NavDropdown.Item>
-									{/* <NavDropdown.Divider />
-									<NavDropdown.Item href="#action5">
-										Something else here
-									</NavDropdown.Item> *
+								</NavDropdown>
+								<NavDropdown
+									title="Favorites"
+									id={`offcanvasNavbarDropdown-expand-${expand}`}
+								>
+									{store.favorites.length == 0 ? <NavDropdown.Item>No hay favoritos</NavDropdown.Item>
+									:store.favorites.map((item,id) =>
+										<NavDropdown.Item key={id}>
+											{item}
+											<button onClick={() => remotefavorite(id)}>
+												<i className="fa fa-trash"></i>
+											</button>
+										</NavDropdown.Item>
+									)}
 								</NavDropdown>
 							</Nav>
-							{/* <Form className="d-flex">
-								<Form.Control
-									type="search"
-									placeholder="Search"
-									className="me-2"
-									aria-label="Search"
-								/>
-								<Button variant="outline-success">Search</Button>
-							</Form> 
 						</Offcanvas.Body>
 					</Navbar.Offcanvas>
 				</Container>
 			</Navbar>
 			))}
 		</>
-		*/
+
 	);
 }

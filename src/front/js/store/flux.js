@@ -26,7 +26,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			characters:[],
 			vehicles:[],
 			planets:[],
-			category:[]
+			category:[],
+			favorites:[]
 
 		},
 		actions: {
@@ -73,6 +74,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Eroor fecth', error);
 					return;
 				}
+			},
+			addFavorite:(title)=>{
+				setStore({favorites:[...getStore().favorites, title]})
+			},
+			removeFavorite:(id) =>{
+				setStore({favorites: getStore().favorites.filter((item,i)=>{return i!= id;})})
 			},
 			getCategory:async (category) =>{
 				const url = `${process.env.URISWAPITECH}/${category}`;
