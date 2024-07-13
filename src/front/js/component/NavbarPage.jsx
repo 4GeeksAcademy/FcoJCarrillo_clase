@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Badge from 'react-bootstrap/Badge';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
@@ -41,9 +42,27 @@ export const NavbarPage = () => {
 						</Offcanvas.Header>
 						<Offcanvas.Body>
 							<Nav className="justify-content-end flex-grow-1 pe-3">
-							    
 								<Nav.Link href="/">Home</Nav.Link>
 								<Nav.Link href="/Contact">ContactList</Nav.Link>
+								<NavDropdown
+									title={
+										<>
+										  Favorites <Badge bg="secondary">{store.favorites.length}</Badge>
+										</>
+									  }
+									id={`offcanvasNavbarDropdown-expand-${expand}`}
+									
+								>
+									{store.favorites.length == 0 ? <NavDropdown.Item>No hay favoritos</NavDropdown.Item>
+									:store.favorites.map((item,id) =>
+										<NavDropdown.Item key={id}>
+											{item}
+											<button onClick={() => remotefavorite(id)}>
+												<i className="fa fa-trash"></i>
+											</button>
+										</NavDropdown.Item>
+									)}
+								</NavDropdown>
 								<NavDropdown
 									title="StarWars"
 									id={`offcanvasNavbarDropdown-expand-${expand}`}
@@ -67,20 +86,7 @@ export const NavbarPage = () => {
 										</Link>
 									</NavDropdown.Item>
 								</NavDropdown>
-								<NavDropdown
-									title="Favorites"
-									id={`offcanvasNavbarDropdown-expand-${expand}`}
-								>
-									{store.favorites.length == 0 ? <NavDropdown.Item>No hay favoritos</NavDropdown.Item>
-									:store.favorites.map((item,id) =>
-										<NavDropdown.Item key={id}>
-											{item}
-											<button onClick={() => remotefavorite(id)}>
-												<i className="fa fa-trash"></i>
-											</button>
-										</NavDropdown.Item>
-									)}
-								</NavDropdown>
+								
 							</Nav>
 						</Offcanvas.Body>
 					</Navbar.Offcanvas>
