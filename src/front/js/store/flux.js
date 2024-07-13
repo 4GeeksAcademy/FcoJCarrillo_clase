@@ -37,44 +37,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			getHost:  async () =>{
-				const url = `${process.env.URISWAPITECH}`;
-				const options = {
-					method:'GET'
-				};
-				try {
-					const response = await fetch(url,options);
-					if(!response.ok){
-						console.log("Error: ", response.status, response.statusText);
-						return;
-					}
-					const data = await response.json();
-					setStore({diferentsHosts:data.result});
-					console.log(getStore().diferentsHosts);
-				} catch (error) {
-					console.log('Eroor fecth', error);
-					return;
-				}
-			},
-			getCharacter: async () =>{
-				const url = `${process.env.URISWAPITECH}/people`;
-				const options = {
-					method:'GET'
-				};
-				try {
-					const response = await fetch(url,options);
-					if(!response.ok){
-						console.log("Error: ", response.status, response.statusText);
-						return;
-					}
-					const data = await response.json();
-					setStore({characters:data.results});
-					console.log(getStore().characters);
-				} catch (error) {
-					console.log('Eroor fecth', error);
-					return;
-				}
-			},
 			addFavorite:(title)=>{
 				setStore({favorites:[...getStore().favorites, title]})
 			},
@@ -118,46 +80,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(data.result.properties);
 					return data.result.properties;
 					//return data.results.properties;
-				} catch (error) {
-					console.log('Eroor fecth', error);
-					return;
-				}
-			},
-			getVehicles: async () =>{
-				const url = `${process.env.URISWAPITECH}/starships`;
-				const options = {
-					method:'GET'
-				};
-				try {
-					const response = await fetch(url,options);
-					if(!response.ok){
-						console.log("Error: ", response.status, response.statusText);
-						return;
-					}
-					const data = await response.json();
-					setStore({vehicles:data.results});
-					console.log(getStore().vehicles);
-					//uid para las imagenes
-				} catch (error) {
-					console.log('Eroor fecth', error);
-					return;
-				}
-			},
-			getPlanets: async () =>{
-				const url = `${process.env.URISWAPITECH}/planets`;
-				const options = {
-					method:'GET'
-				};
-				try {
-					const response = await fetch(url,options);
-					if(!response.ok){
-						console.log("Error: ", response.status, response.statusText);
-						return;
-					}
-					const data = await response.json();
-					setStore({planets:data.results
-					});
-					console.log(getStore().planets.results);
 				} catch (error) {
 					console.log('Eroor fecth', error);
 					return;

@@ -38,7 +38,7 @@ export const Category = () => {
     return (
         <div className="container">
             <div className="row">
-
+            <h1 className="text-center">{param.category.toUpperCase()}</h1>
             {currentMap && currentMap.map((item) => {
                 return (
                     <Card className="mx-2 my-2" style={{ width: '18rem' }} key={item.uid}>
