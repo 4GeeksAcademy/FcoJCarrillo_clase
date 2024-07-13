@@ -25,7 +25,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			diferentsHosts: [],
 			characters:[],
 			vehicles:[],
-			planets:[]
+			planets:[],
+			category:[]
 
 		},
 		actions: {
@@ -37,7 +38,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getHost:  async () =>{
 				const url = `${process.env.URISWAPITECH}`;
-				console.log(url);
 				const options = {
 					method:'GET'
 				};
@@ -69,6 +69,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					setStore({characters:data.results});
 					console.log(getStore().characters);
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			getCategory:async (category) =>{
+				const url = `${process.env.URISWAPITECH}/${category}`;
+				const options = {
+					method:'GET'
+				}
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					return data.results;
+					//setStore({category:data.results});
+					//console.log(getStore().category);
+					//uid para las imagenes
+				} catch (error) {
+					console.log('Eroor fecth', error);
+					return;
+				}
+			},
+			getCategoryDetails: async (category, id) =>{
+				const url = `${process.env.URISWAPITECH}/${category}/${id}`;
+				const options = {
+                    method:'GET'
+                };
+				console.log(url);
+				try {
+					const response = await fetch(url,options);
+					if(!response.ok){
+						console.log("Error: ", response.status, response.statusText);
+						return;
+					}
+					const data = await response.json();
+					console.log(data.result.properties);
+					return data.result.properties;
+					//return data.results.properties;
 				} catch (error) {
 					console.log('Eroor fecth', error);
 					return;

@@ -4,7 +4,7 @@ import injectContext from "./store/appContext";
 //import custom Component
 import ScrollToTop from "./component/ScrollToTop.jsx";
 import { BackendURL } from "./component/BackendURL.jsx";
-import { Navbar } from "./component/Navbar.jsx";
+import { NavbarPage } from "./component/NavbarPage.jsx";
 import { Footer } from "./component/Footer.jsx";
 //import custom Pages
 import { Home } from "./pages/Home.jsx";
@@ -15,6 +15,9 @@ import { Form } from "./pages/Form.jsx";
 import { Contact } from "./pages/Contact.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { StarShips } from "./pages/StarShips.jsx";
+import { Category } from "./pages/Category.jsx";
+import { CategoryDetails } from "./pages/CategoryDetails.jsx";
+
 
 
 //create your first component
@@ -29,13 +32,15 @@ const Layout = () => {
         <div className="d-flex flex-column min-vh-100">
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <Navbar />
+                    <NavbarPage/>
                     <Routes>
                         <Route element={<HomePage/>} path="/"/>
                         <Route element={<Contact/>} path='/Contact' />
                         <Route element={<Form />} path='/Form' />
                         <Route element={<Error404/>} path="*" />
-                        <Route element={<StarShips/>} path="/StarShips" />
+                        {/* <Route element={<StarShips/>} path="/StarShips" /> */}
+                        <Route element={<Category/>} path="/:category"/>
+                        <Route element={<CategoryDetails/>} path="/:category/:uid"/>
                     </Routes>
                     <Footer />
                 </ScrollToTop>
