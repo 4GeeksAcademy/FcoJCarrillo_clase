@@ -18,7 +18,7 @@ export const Form = () => {
         console.log(fullName,phone,email,address);
         if(confirm('Do you want create this one user?')){
             actions.createContact(fullName,phone,email,address);
-            navigate("/")
+            navigate("/Contact")
         }
     }
 
