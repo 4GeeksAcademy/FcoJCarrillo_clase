@@ -21,7 +21,7 @@ export const NavbarPage = () => {
 	const handleClick = async (tipo) => {
 		await actions.getCategory(tipo);
 		setCategory(tipo);
-		navigate(tipo);
+		navigate(tipo)
 	}
 
 	return (
@@ -69,12 +69,16 @@ export const NavbarPage = () => {
 									id={`offcanvasNavbarDropdown-expand-${expand}`}
 								>
 									<NavDropdown.Item as="div">
+									
 										<Button onClick={()=>handleClick("people")} variant="outline-success"><i className="fas fa-user-astronaut"></i>-People</Button>
 										</NavDropdown.Item>
 									<NavDropdown.Item as="div">
+	
+									
 										<Button onClick={()=>handleClick("planets")} variant="outline-success"><i className="fas fa-globe"></i>-Planets</Button>
 									</NavDropdown.Item>
 									<NavDropdown.Item as="div">
+									
 										<Button onClick={()=>handleClick("species")} variant="outline-success"><i className="fas fa-table"></i>-Species</Button>
 									</NavDropdown.Item>
 								</NavDropdown>
