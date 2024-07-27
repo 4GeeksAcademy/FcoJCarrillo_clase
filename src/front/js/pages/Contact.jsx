@@ -32,7 +32,7 @@ export const Contact = () => {
     if(confirm('Do you want to edit this contact?')){
       console.log(idUser);
       await actions.updateContact(idUser,objeto);
-      navigate("/");
+      navigate("/Contact");
     }
     setEditContact(null);
     actions.getUserContactList();
