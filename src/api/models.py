@@ -22,7 +22,7 @@ class Users(db.Model):
         # Do not serialize the password, its a security breach
         return {"id": self.id,
                 "username": self.username,
-                "firtname": self.firtname,
+                "firstname": self.firstname,
                 "lastname": self.lastname,
                 "email": self.email}
 
@@ -37,7 +37,7 @@ class Post(db.Model):
     def __repr__(self):
         return f'<Post {self.id} - {self.user_id}>'
     
-    def serializa(self):
+    def serialize(self):
         return{"id": self.id,
                 "user_id": self.user_id}
 
@@ -56,7 +56,7 @@ class Media(db.Model):
         return f'<Post {self.id} - {self.media_type}>'
     
 
-    def serializa(self):
+    def serialize(self):
         return{"id": self.id,
                 "media_type": self.media_type,
                 "url": self.url,
@@ -78,7 +78,7 @@ class Comment(db.Model):
         return f'<Comment {self.id} - {self.comment_text} - {self.author_id} - {self.post_id}>'
     
 
-    def serializa(self):
+    def serialize(self):
         return{"id": self.id,
                 "comment_text": self.comment_text,
                 "author_id": self.author_id,
