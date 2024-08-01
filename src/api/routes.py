@@ -5,6 +5,9 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from api.models import db, Users, Media, Post, Comment
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity
 
 
 api = Blueprint('api', __name__)
@@ -156,3 +159,34 @@ def handle_media_id(media_id):
         response_body['message'] = f'Recibí el DELETE request {media_id}'
         return jsonify(response_body), 200
 
+
+@api.route("/login", methods=["POST"])
+def login():
+    response_body = {}
+    data = request.json
+    # TODO: realizar la lógica para verificar en nuestra DB
+    email = data.get("email", None)
+    password = data.get("password", None)
+    user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
+    if not user:
+        response_body['message'] = 'Authorization denied. email, password incorrect or user inactive'
+        return response_body, 401
+    access_token = create_access_token(identity={'email': email, 'user_id': user.id, 'is_admin': user.is_admin})
+    response_body['results'] = user.serialize()
+    response_body['message'] = 'User logged'
+    response_body['access_token'] = access_token
+    return response_body, 201
+
+
+@api.route("/profile", methods=["GET"])
+@jwt_required()
+def profile():
+    response_body = {}
+    current_user = get_jwt_identity()  # Access the identity of the current user with get_jwt_identity
+    if current_user['is_admin']:
+        response_body['message'] = f'Acceso concedido a {current_user["email"]}'
+        response_body['user_data'] = current_user
+        return response_body, 200
+    response_body['message'] = f'Acceso dengado porque no eres Administrador'
+    response_body['user_data'] = {}
+    return response_body, 40
