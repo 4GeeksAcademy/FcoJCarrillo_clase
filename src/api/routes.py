@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from api.models import db, Users, Media, Post, Comment
+from api.models import db, Users, Media, Post, Comment, Favourite
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
@@ -179,6 +179,30 @@ def login():
     response_body['access_token'] = access_token
     return response_body, 201
 
+@api.route("/favourite/<int:user_id>", methods=["POST", "GET"])
+def favourite(user_id):
+    response_body = {}
+    if request.method == "POST":  
+        data = request.json
+        item = data.get("item")
+        user = db.session.execute(db.select(Favourite).where(Favourite.user_id == user_id)).scalar()
+        if not user:
+            response_body["message"] = "El usuario no existe"
+            return response_body, 401
+        favourite2 = Favourite(item = data.get("item"),
+                               user_id = user_id)
+        print(favourite2)
+        db.session.add(favourite2)
+        db.session.commit()
+        response_body["message"] = "POST request"
+        return response_body, 201
+    if request.method == "GET":  
+        list_favourite = db.session.execute(db.select(Favourite).where(Favourite.user_id == user_id)).scalars()
+        rows = [row.serialize() for row in list_favourite]
+        print(rows)
+        response_body['message'] = "Recibí el GET request"
+        response_body['result'] = rows
+        return jsonify(response_body), 200
 
 @api.route('/signup', methods=['POST'])
 def signup():
