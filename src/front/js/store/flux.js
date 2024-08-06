@@ -191,7 +191,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 				setCurrentContact: (contact) => {setStore({ currentContact: contact })}
 			},
-			setForm: (newText) => {setStore({form: newText})}
+			setForm: (newText) => {setStore({form: newText})},
+			setAlert: (newAlert) => {setStore({ alert: newAlert})},
+			setCurrentUser: (user) =>{setStore({currentUser:user})},
+			setIsLoged: (isLogin) => {setStore({ isLoged: isLogin })}
 		}
 	};
 };

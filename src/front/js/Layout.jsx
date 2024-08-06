@@ -17,6 +17,7 @@ import { HomePage } from "./pages/HomePage.jsx";
 import { StarShips } from "./pages/StarShips.jsx";
 import { Category } from "./pages/Category.jsx";
 import { CategoryDetails } from "./pages/CategoryDetails.jsx";
+import { Login } from "./pages/Login.jsx";
 
 
 
@@ -41,6 +42,7 @@ const Layout = () => {
                         {/* <Route element={<StarShips/>} path="/StarShips" /> */}
                         <Route element={<Category/>} path="/:category"/>
                         <Route element={<CategoryDetails/>} path="/:category/:uid"/>
+                        <Route element={<Login/>} path="/Login"/>
                     </Routes>
                     <Footer />
                 </ScrollToTop>

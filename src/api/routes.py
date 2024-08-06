@@ -167,6 +167,8 @@ def login():
     # TODO: realizar la lógica para verificar en nuestra DB
     email = data.get("email", None)
     password = data.get("password", None)
+    print(email)
+    print(password)
     user = db.session.execute(db.select(Users).where(Users.email == email, Users.password == password, Users.is_active == True)).scalar()
     if not user:
         response_body['message'] = 'Authorization denied. email, password incorrect or user inactive'
@@ -174,6 +176,26 @@ def login():
     access_token = create_access_token(identity={'email': email, 'user_id': user.id, 'is_admin': user.is_admin})
     response_body['results'] = user.serialize()
     response_body['message'] = 'User logged'
+    response_body['access_token'] = access_token
+    return response_body, 201
+
+
+@api.route('/signup', methods=['POST'])
+def signup():
+    response_body = {}
+    email = request.json.get("email", None).lower()
+    password = request.json.get("password", None)
+    # TODO: Logica de verificación de un mail válido y password válido, si ya existe el maiil
+    new_user = Users(
+        
+    )
+    db.session.add(user)
+    db.session.commit()
+    access_token = create_access_token(identity={'email': user.email,
+                                                 'user_id': user.id,
+                                                 'is_admin': user.is_admin})
+    response_body['results'] = user.serialize()
+    response_body['message'] = 'User Registrado y logeado'
     response_body['access_token'] = access_token
     return response_body, 201
 

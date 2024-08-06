@@ -10,21 +10,28 @@ git branch -a
 class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(120), unique=True, nullable=False)
-    firstname = db.Column(db.String(80), unique=False, nullable=False)
-    lastname = db.Column(db.String(80), unique=False, nullable=False)
-    email = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_admin = db.Column(db.Boolean(), unique=False, nullable=False)
+    firstname = db.Column(db.String(80), nullable=True)
+    lastname = db.Column(db.String(80), nullable=True)
+    identification_type = db.Column(db.Enum('DNI', 'NIE', 'Passport', name='identification_type'), nullable=True)
+    identification_number = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
 
     def serialize(self):
         # Do not serialize the password, its a security breach
-        return {"id": self.id,
-                "username": self.username,
-                "firstname": self.firstname,
-                "lastname": self.lastname,
-                "email": self.email}
+        return {'id': self.id,
+                'email': self.email,
+                'firstname': self.firstname,
+                'lastname': self.lastname,
+                'identification_type': self.identification_type,
+                'identification_number': self.identification_number,
+                'is_active': self.is_active,
+                'is_admin': self.is_admin}
 
 
 class Post(db.Model):
@@ -35,7 +42,7 @@ class Post(db.Model):
                                 backref=db.backref('users_to', lazy='select'))
 
     def __repr__(self):
-        return f'<Post {self.id} - {self.user_id}>'
+        return f'<User {self.email}>'
     
     def serialize(self):
         return{"id": self.id,
