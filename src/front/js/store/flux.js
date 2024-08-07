@@ -27,7 +27,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			vehicles:[],
 			planets:[],
 			category:[],
-			favorites:[]
+			favorites:[],
+		
+		//autenticator
+			currentUser:null,
+			isLoged: false
 
 		},
 		actions: {

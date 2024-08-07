@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-
+import Badge from 'react-bootstrap/Badge';
 
 export const Login = () => {
     const { actions } = useContext(Context);
@@ -52,13 +52,16 @@ export const Login = () => {
         actions.setIsLoged(true)
         actions.setAlert({ visible: true, back: 'info', text: data.message })
         // Me voy al dashboard
-        navigate('/')
+        navigate('/dashboard')
     };
 
-    return (
-        <Container>
+    return  (
+        <Container className="border border-primary p-4 mt-4" style={{ width: '50%', maxWidth: '600px', height: 'auto' }}>
             <Row className="justify-content-md-center">
                 <Col xs md lg={6}>
+                <h1 className="text-center">
+        <Badge bg="info">LOGIN</Badge>
+      </h1>
                     <Form onSubmit={handleLogin}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>User</Form.Label>

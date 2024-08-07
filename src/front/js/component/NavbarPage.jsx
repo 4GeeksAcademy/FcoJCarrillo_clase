@@ -23,7 +23,12 @@ export const NavbarPage = () => {
 		setCategory(tipo);
 		navigate(tipo);
 	}
-
+	const handleLogout = () => {
+		localStorage.clear();
+		actions.setIsLoged(false);
+		actions.setCurrentUser(null);
+		actions.setAlert({visible: false, back: 'info', text: ''})
+	  }
 	return (
 		<>
 		{['sm'].map((expand) => (
@@ -78,7 +83,16 @@ export const NavbarPage = () => {
 										<Button onClick={()=>handleClick("species")} variant="outline-success"><i className="fas fa-table"></i>-Species</Button>
 									</NavDropdown.Item>
 								</NavDropdown>
-								
+								{store.isLoged ?
+								<>
+								<Nav.Link href="/" onClick={()=>handleLogout}>Log out<i className="fas fa-sign-in-alt"></i></Nav.Link>
+								</>
+								:
+								<>
+								<Nav.Link href="/login">Login<i className="fas fa-sign-in-alt"></i></Nav.Link>
+								<Nav.Link href="/signup">Sign up<i className="fas fa-sign-in-alt"></i></Nav.Link>
+								</>
+							}
 							</Nav>
 						</Offcanvas.Body>
 					</Navbar.Offcanvas>
