@@ -17,6 +17,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			cohorte: 'Spain-72',
 			user: 'javi',
 			host: 'https://playground.4geeks.com/contact',
+			alert: {visible: false, back: 'danger', text: 'Mensaje del back'},
 			contacts: [],
 			currentContact: null,
 
@@ -110,6 +111,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return;
 				}
 				
+			},
+			createFavourite: async (fullName, phone,email, address) =>{
+				const url = `${process.env.BACKEND_URL} + '/api/signup'`
+				const dataToSend = {
+						"item": "Dark Vader2222"
+				}
+				const options = {
+					method: 'Post',
+					headers : {
+						'Content-Type': 'application/json' 
+					},
+					body: JSON.stringify(dataToSend)
+				}
+				try {
+					const response = await fetch(url, options)
+					console.log(response);
+					const data = await response.json()
+				} catch (error) {
+					console.log('Error', error.status, error.statusText);
+				}
+			},
+			showFavourite: async (fullName, phone,email, address) =>{
+
 			},
 			createContact: async (fullName, phone,email, address) =>{
 				const url = `${getStore().host}/agendas/${getStore().user}/contacts`;

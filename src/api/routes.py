@@ -193,7 +193,7 @@ def favourite(user_id):
 def signup():
     response_body = {}
     data = request.json
-    email = data.get("email").lower()
+    email = data.get("email", None).lower()
     new_user = Users(
         email = email,
         password = data.get("password"),
