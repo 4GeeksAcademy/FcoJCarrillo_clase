@@ -8,6 +8,8 @@ from api.models import db, Users, Media, Post, Comment, Favourite
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
+# # import requests
+import json
 
 
 api = Blueprint('api', __name__)
@@ -225,3 +227,37 @@ def profile():
     response_body['message'] = f'Acceso dengado porque no eres Administrador'
     response_body['results'] = {}
     return response_body, 40
+
+
+# @api.route("/load-data", methods=["GET"])
+# def load_data_from_api():
+#     url = 'https://randomuser.me/api/?nat=es&results=20'
+#     response = requests.get(url)
+#     if response.status_code == 200:
+#         data = response.json()
+#         print(data['results'])
+#         for row in data['results']:
+#             print(row['login']['password'])
+#     return {}, 200
+
+
+@api.route("/load-json", methods=["GET"])
+def load_data_from_api():
+    with open('src/api/user.json') as json_file:
+        data = json.load(json_file)
+        print(data)
+        for row in data:
+            email = row['email']
+            print(email)
+            # firstname = row['login']['password']
+            # lastname = row['name']['first']
+            # email = row['name']['last']
+            # user = Users()
+            # user.email = email
+            # user.password = password
+            # user.is_active = True
+            # user.is_admin = False
+            # db.session.add(user)
+            # db.session.commit()
+
+    return{}, 200
