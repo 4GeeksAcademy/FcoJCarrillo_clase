@@ -4,7 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from api.models import db, Users, Media, Post, Comment, Favourite
+from api.models import db, Users, Media, Posts, Comments, Favourites
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
@@ -33,6 +33,18 @@ def handle_users():
         return jsonify(response_body), 200
     if request.method=='POST':
         data = request.json
+        username = data.get('username', None)
+        email = data.get('email', None)
+        if not username or not email:
+            response_body['message'] = 'Missing data'
+            response_body['results'] = {}
+            return response_body, 400
+        username_exist = db.session.execute(db.select(Users).where(Users.username == username)).scalar()
+        email_exist = db.session.execute(db.select(Users).where(Users.email == email)).scalar()
+        if username_exist or email_exist:
+            response_body['message'] = 'User already exist'
+            response_body['results'] = {}
+            return response_body, 404
         user = Users(
                 username=data['username'],
                 firstname=data['firstname'],
@@ -163,28 +175,45 @@ def login():
     return response_body, 201
 
 
-@api.route("/favourite/<int:user_id>", methods=["POST", "GET"])
-def favourite(user_id):
+@api.route("/favourites", methods=["POST", "GET"])
+@jwt_required()
+def favourites():
     response_body = {}
+    currentUser = get_jwt_identity()
+    print("currentUser")
+    user = db.session.execute(db.select(Users).where(Users.id == currentUser['user_id'])).scalar()
+    
+    if not user:
+        response_body['results'] = {}
+        response_body["message"] = "User not found"
+        return jsonify(response_body), 404
+
+    user_id = user.id  # Asegúrate de obtener el `user_id` de `user`
+
     if request.method == "POST":  
         data = request.json
         item = data.get("item")
-        user = db.session.execute(db.select(Favourite).where(Favourite.user_id == user_id)).scalar()
-        if not user:
-            response_body["message"] = "El usuario no existe"
-            return response_body, 401
-        favourite2 = Favourite(item = data.get("item"),
-                               user_id = user_id)
-        print(favourite2)
+
+        existing_favourite = db.session.execute(
+            db.select(Favourites).where(Favourites.user_id == user_id, Favourites.item == item)
+        ).scalar()
+
+        if existing_favourite:
+            response_body["message"] = "The favourite already exists!!!"
+            return jsonify(response_body), 409
+
+        favourite2 = Favourites(item=item, user_id=user_id)
+        
         db.session.add(favourite2)
         db.session.commit()
-        response_body["message"] = "POST request"
-        return response_body, 201
+        
+        response_body["message"] = "Favourite added"
+        return jsonify(response_body), 201
+
     if request.method == "GET":  
-        list_favourite = db.session.execute(db.select(Favourite).where(Favourite.user_id == user_id)).scalars()
+        list_favourite = db.session.execute(db.select(Favourites).where(Favourites.user_id == user_id)).scalars()
         rows = [row.serialize() for row in list_favourite]
-        print(rows)
-        response_body['message'] = "Recibí el GET request"
+        response_body['message'] = "Received GET request"
         response_body['result'] = rows
         return jsonify(response_body), 200
 
@@ -194,6 +223,7 @@ def signup():
     response_body = {}
     data = request.json
     email = data.get("email", None).lower()
+    password = data.get("password", None)
     new_user = Users(
         email = email,
         password = data.get("password"),
@@ -224,4 +254,6 @@ def profile():
         return response_body, 200
     response_body['message'] = f'Acceso dengado porque no eres Administrador'
     response_body['results'] = {}
-    return response_body, 40
+    return response_body, 200
+
+

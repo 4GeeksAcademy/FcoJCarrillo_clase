@@ -13,12 +13,14 @@ export const Login = () => {
     const [userLogin, setUserLogin] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const navigate = useNavigate()
-    
+
     const handleLogin = async (event) => {
         event.preventDefault();
         console.log(userLogin, userPassword);
-        const dataToSend = {"email":userLogin, 
-                            "password":userPassword};
+        const dataToSend = {
+            "email": userLogin,
+            "password": userPassword
+        };
         // 1. fetch al /api/login enviando en el body el dataToSend
         const uri = process.env.BACKEND_URL + '/api/login'
         const options = {
@@ -40,7 +42,7 @@ export const Login = () => {
                 //     text: data.message
                 // }
                 // actions.setAlert(alert)
-                console.log("Error: "+response.status+ response.statusText)
+                console.log("Error: " + response.status + response.statusText)
             }
             return
         }
@@ -50,18 +52,19 @@ export const Login = () => {
         localStorage.setItem("user", JSON.stringify(data.results));
         actions.setCurrentUser(data.results);
         actions.setIsLoged(true)
+        //actions.token(data.access_token)
         actions.setAlert({ visible: true, back: 'info', text: data.message })
         // Me voy al dashboard
         navigate('/dashboard')
     };
 
-    return  (
+    return (
         <Container className="border border-primary p-4 mt-4" style={{ width: '50%', maxWidth: '600px', height: 'auto' }}>
             <Row className="justify-content-md-center">
                 <Col xs md lg={6}>
-                <h1 className="text-center">
-        <Badge bg="info">LOGIN</Badge>
-      </h1>
+                    <h1 className="text-center">
+                        <Badge bg="info">LOGIN</Badge>
+                    </h1>
                     <Form onSubmit={handleLogin}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>User</Form.Label>

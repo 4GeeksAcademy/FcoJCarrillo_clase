@@ -34,8 +34,8 @@ class Users(db.Model):
                 'is_admin': self.is_admin}
 
 
-class Post(db.Model):
-    __tablename__ = 'post'
+class Posts(db.Model):
+    __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user_to = db.relationship('Users', foreign_keys=[user_id],
@@ -54,8 +54,8 @@ class Media(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     media_type = db.Column(db.Enum('video', 'image', name='media_type'), unique=False, nullable=True)
     url = db.Column(db.String)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    poster_id = db.relationship('Post', foreign_keys=[post_id],
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    poster_id = db.relationship('Posts', foreign_keys=[post_id],
                                 backref=db.backref('media_to', lazy='select'))
 
 
@@ -70,15 +70,15 @@ class Media(db.Model):
                 "post_id": self.post_id}
 
 
-class Comment(db.Model):
-    __tablename__ = 'comment'
+class Comments(db.Model):
+    __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key=True)
     comment_text = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     author_to = db.relationship('Users', foreign_keys=[author_id],
                                 backref=db.backref('author_to', lazy='select'))
-    post_to = db.relationship('Post', foreign_keys=[post_id],
+    post_to = db.relationship('Posts', foreign_keys=[post_id],
                                 backref=db.backref('post_to', lazy='select'))
 
     def __repr__(self):
@@ -92,8 +92,8 @@ class Comment(db.Model):
                 "post_id": self.post_id}
 
 
-class Favourite(db.Model):
-    __tablename__ = 'favourite'
+class Favourites(db.Model):
+    __tablename__ = 'favourites'
     id = db.Column(db.Integer, primary_key=True)
     item = db.Column(db.String(120))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -106,4 +106,16 @@ class Favourite(db.Model):
     def serialize(self):
         return{"id": self.id,
                 "item": self.item,
-                "user_id": self.user_id}  
+                "user_id": self.user_id}
+
+
+# class Species(db.Model):
+#     pass
+
+
+# class People(db.Model):
+#     pass
+
+
+# class Planet(db.Model):
+#     pass

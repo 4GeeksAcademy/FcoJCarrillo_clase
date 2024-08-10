@@ -33,6 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		//autenticator
 			currentUser:null,
 			isLoged: false
+			//token: null
 
 		},
 		actions: {
@@ -112,29 +113,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				
 			},
-			createFavourite: async (fullName, phone,email, address) =>{
-				const url = `${process.env.BACKEND_URL} + '/api/signup'`
-				const dataToSend = {
-						"item": "Dark Vader2222"
-				}
-				const options = {
-					method: 'Post',
-					headers : {
-						'Content-Type': 'application/json' 
-					},
-					body: JSON.stringify(dataToSend)
-				}
-				try {
-					const response = await fetch(url, options)
-					console.log(response);
-					const data = await response.json()
-				} catch (error) {
-					console.log('Error', error.status, error.statusText);
-				}
-			},
-			showFavourite: async (fullName, phone,email, address) =>{
+			// createFavourite: async (itemFavourite) =>{
+			// 	const url = `https://jubilant-adventure-ww4vw6r497wcgq5q-3001.app.github.dev/api/favourites`
+			// 	const dataToSend = {
+			// 		"item": itemFavourite,
+			// 	}
+			// 	const options = {
+			// 		method: 'Post',
+			// 		headers : {
+			// 			'Content-Type': 'application/json' 
+			// 		},
+			// 		body: JSON.stringify(dataToSend)
+			// 	}
+			// 	console.log(itemFavourite);
+			// 	try {
+			// 		const response = await fetch(url, options)
+			// 		console.log(response);
+			// 	} catch (error) {
+			// 		console.log('Error', error.status, error.statusText);
+			// 	}
+			// },
+			// showFavourite: async (id) =>{
 
-			},
+			// },
 			createContact: async (fullName, phone,email, address) =>{
 				const url = `${getStore().host}/agendas/${getStore().user}/contacts`;
 				const dataToSend ={
@@ -223,6 +224,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setAlert: (newAlert) => {setStore({ alert: newAlert})},
 			setCurrentUser: (user) =>{setStore({currentUser:user})},
 			setIsLoged: (isLogin) => {setStore({ isLoged: isLogin })}
+			//setToken: (token) => {setStore({ token: token })}
 		}
 	};
 };

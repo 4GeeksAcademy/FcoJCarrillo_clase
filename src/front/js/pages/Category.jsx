@@ -10,6 +10,8 @@ export const Category = () => {
     const [image,setImage] = useState("");
     const [category, setCategory] = useState("");
     const [currentMap, setCurrentMap] = useState("");
+    const { store, actions } = useContext(Context);
+    const personaActual = store.currentUser.id;
 
     const handleImgError = (event) =>{
         //people,species y planet
@@ -26,6 +28,45 @@ export const Category = () => {
     const addfavorite = async (parameter) => {
         await actions.addFavorite(parameter);
     }
+    const addFavouriteApi = async(favourite) =>{
+        const token = localStorage.getItem('token');
+
+        // Imprimir el token en la consola
+        console.log(token);
+        const dataToSend = {
+            "item": favourite,
+        };
+        // 1. fetch al /api/login enviando en el body el dataToSend
+        const uri = process.env.BACKEND_URL + 'api/favourites'
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(dataToSend),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        const response = await fetch(uri, options)
+        if (!response.ok) {
+            // Tratamos el error
+            console.log('Error: ', response.status, response.statusText);
+            if (response.status == 401) {
+                const data = await response.json()
+                // let alert = {
+                //     visible: true,
+                //     back: 'danger',
+                //     text: data.message
+                // }
+                // actions.setAlert(alert)
+                console.log("Error: " + response.status + response.statusText)
+            }
+            else if(response.status == 409){
+                console.log("El favorito ya existe");
+            }
+            return
+        }
+
+    }
     useEffect(()=>{
         if(param.category === "people") setImage("https://starwars-visualguide.com/assets/img/characters");
         else if(param.category === "species") setImage("https://starwars-visualguide.com/assets/img/species");
@@ -34,7 +75,7 @@ export const Category = () => {
         data();
         
     },[param.category])
-    const { store, actions } = useContext(Context);
+    
     return (
         <div className="container">
             <div className="row">
@@ -54,7 +95,8 @@ export const Category = () => {
                         <Link to={`/${param.category}/${item.uid}`}>
                             <Button onClick={() =>handleProperties(param.category,item.uid)} variant="primary">More information</Button>
                             </Link>
-                            <Button onClick={() =>addfavorite(item.name)} variant="primary"><i className="far fa-heart"></i></Button>
+                            {/* <Button onClick={() =>addfavorite(item.name)} variant="primary"><i className="far fa-heart"></i></Button> */}
+                            <Button onClick={() =>addFavouriteApi(item.name)} variant="primary"><i className="far fa-heart"></i></Button>
                         </Card.Body>
                     </Card>
                     //<i class="fas fa-id-card"></i>

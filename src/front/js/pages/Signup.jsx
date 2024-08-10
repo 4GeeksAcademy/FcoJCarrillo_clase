@@ -18,15 +18,15 @@ export const Signup = () => {
     const handleRegister = async (event) => {
         event.preventDefault();
         console.log(userLogin, userPassword,userPasswordConfirm);
-        if(userPassword != userPasswordConfirm){
-            actions.setAlert({ visible: true, back: 'info', text: "Las contraseñas no coinciden" })
-            console.log("No coinciden las contraseñas");
-            return
-        }
+        // if(userPassword != userPasswordConfirm){
+        //     actions.setAlert({ visible: true, back: 'info', text: "Las contraseñas no coinciden" })
+        //     console.log("No coinciden las contraseñas");
+        //     return
+        // }
         // fetch a /api/signup enviando dataToSend
         const dataToSend = { "email":userLogin, 
                             "password":userPassword};
-        const uri = process.env.BACKEND_URL + '/api/signup';
+        const uri = process.env.BACKEND_URL + 'api/signup';
         const options = {
             method: 'POST',
             body: JSON.stringify(dataToSend),
@@ -48,6 +48,7 @@ export const Signup = () => {
         // actions: si está logueado, datos del usuario, el mensaje
         actions.setIsLoged(true);
         actions.setCurrentUser(data.results);
+        //actions.token(data.access_token);
         actions.setAlert({ visible: true, back: 'info', text: data.message })
         navigate('/dashboard')
     }
@@ -59,20 +60,16 @@ export const Signup = () => {
                         <Badge bg="info">Register</Badge>
                     </h1>
                     <Form onSubmit={handleRegister}>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Group className="mb-3" controlId="email">
                             <Form.Label>User</Form.Label>
                             <Form.Control type="text" placeholder="Enter email" value={userLogin} onChange={(event) => setUserLogin(event.target.value)} />
                             {/* <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
             </Form.Text> */}
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Group className="mb-3" controlId="password">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" value={userPassword} onChange={(event) => setUserPassword(event.target.value)} />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Repeat password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" value={userPasswordConfirm} onChange={(event) => setUserPasswordConfirm(event.target.value)} />
+                            <Form.Control type="password" placeholder="Password"value={userPassword} onChange={(event) => setUserPassword(event.target.value)} />
                         </Form.Group>
                         <Button variant="primary" type="summit">
                             Submit
