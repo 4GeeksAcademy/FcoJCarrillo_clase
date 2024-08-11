@@ -175,7 +175,7 @@ def login():
     return response_body, 201
 
 
-@api.route("/favourites", methods=["POST", "GET"])
+@api.route("/favourites", methods=["POST", "GET", "DELETE"])
 @jwt_required()
 def favourites():
     response_body = {}
@@ -216,6 +216,25 @@ def favourites():
         response_body['message'] = "Received GET request"
         response_body['result'] = rows
         return jsonify(response_body), 200
+    
+    if request.method == "DELETE":
+        data = request.json
+        itemUser = data.get("item")
+        favourite_to_delete = db.session.execute(
+            db.select(Favourites).where(Favourites.user_id == user_id, Favourites.item == itemUser)
+        ).scalar()
+        print("adios")
+        print(f"User ID: {user_id}, Item to delete: '{itemUser}'")
+        if not favourite_to_delete:
+            response_body["message"] = f"Favourite item '{itemUser}' not found"
+            print("Holaaaaaa")
+            return jsonify(response_body), 404
+        print("Hola2")
+        db.session.delete(favourite_to_delete)
+        db.session.commit()
+        response_body["message"] = f"Favourite item '{itemUser}' deleted"
+        print("Hola3")
+        return jsonify(response_body), 201
 
 
 @api.route('/signup', methods=['POST'])
@@ -255,5 +274,3 @@ def profile():
     response_body['message'] = f'Acceso dengado porque no eres Administrador'
     response_body['results'] = {}
     return response_body, 200
-
-

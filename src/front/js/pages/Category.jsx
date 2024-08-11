@@ -11,7 +11,6 @@ export const Category = () => {
     const [category, setCategory] = useState("");
     const [currentMap, setCurrentMap] = useState("");
     const { store, actions } = useContext(Context);
-    const personaActual = store.currentUser.id;
 
     const handleImgError = (event) =>{
         //people,species y planet
@@ -52,12 +51,6 @@ export const Category = () => {
             console.log('Error: ', response.status, response.statusText);
             if (response.status == 401) {
                 const data = await response.json()
-                // let alert = {
-                //     visible: true,
-                //     back: 'danger',
-                //     text: data.message
-                // }
-                // actions.setAlert(alert)
                 console.log("Error: " + response.status + response.statusText)
             }
             else if(response.status == 409){

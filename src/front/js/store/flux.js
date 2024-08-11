@@ -32,7 +32,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		
 		//autenticator
 			currentUser:null,
-			isLoged: false
+			isLoged: false,
+			favourites: []
 			//token: null
 
 		},
@@ -113,29 +114,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				
 			},
-			// createFavourite: async (itemFavourite) =>{
-			// 	const url = `https://jubilant-adventure-ww4vw6r497wcgq5q-3001.app.github.dev/api/favourites`
-			// 	const dataToSend = {
-			// 		"item": itemFavourite,
-			// 	}
-			// 	const options = {
-			// 		method: 'Post',
-			// 		headers : {
-			// 			'Content-Type': 'application/json' 
-			// 		},
-			// 		body: JSON.stringify(dataToSend)
-			// 	}
-			// 	console.log(itemFavourite);
-			// 	try {
-			// 		const response = await fetch(url, options)
-			// 		console.log(response);
-			// 	} catch (error) {
-			// 		console.log('Error', error.status, error.statusText);
-			// 	}
-			// },
-			// showFavourite: async (id) =>{
-
-			// },
+			showFavourite: async () =>{
+				const uri = process.env.BACKEND_URL + 'api/favourites';
+				console.log(uri);
+				const options ={
+					 method:'GET'
+				};
+				try {
+					 const response = await fetch(uri, options);
+					 if(!response.ok){
+						 console.log("Error: ", response.status, response.statusText);
+						 return; 
+					 }
+					 const data = await response.json();
+					 console.log(data);
+					 setStore({contacts: data.contacts});
+				} catch (error) {
+					 console.log('Eroor fecth', error);
+					 return;
+				}
+			},
 			createContact: async (fullName, phone,email, address) =>{
 				const url = `${getStore().host}/agendas/${getStore().user}/contacts`;
 				const dataToSend ={
@@ -223,7 +221,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setForm: (newText) => {setStore({form: newText})},
 			setAlert: (newAlert) => {setStore({ alert: newAlert})},
 			setCurrentUser: (user) =>{setStore({currentUser:user})},
-			setIsLoged: (isLogin) => {setStore({ isLoged: isLogin })}
+			setIsLoged: (isLogin) => {setStore({ isLoged: isLogin })},
+			setFavourites: (favourites) => {setStore({ favourites: favourites })}
 			//setToken: (token) => {setStore({ token: token })}
 		}
 	};
