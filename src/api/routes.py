@@ -223,17 +223,13 @@ def favourites():
         favourite_to_delete = db.session.execute(
             db.select(Favourites).where(Favourites.user_id == user_id, Favourites.item == itemUser)
         ).scalar()
-        print("adios")
-        print(f"User ID: {user_id}, Item to delete: '{itemUser}'")
         if not favourite_to_delete:
             response_body["message"] = f"Favourite item '{itemUser}' not found"
             print("Holaaaaaa")
             return jsonify(response_body), 404
-        print("Hola2")
         db.session.delete(favourite_to_delete)
         db.session.commit()
         response_body["message"] = f"Favourite item '{itemUser}' deleted"
-        print("Hola3")
         return jsonify(response_body), 201
 
 

@@ -69,7 +69,6 @@ export const NavbarPage = () => {
 	}
 	const favourite = async () => {
 		const uri = process.env.BACKEND_URL + 'api/favourites';
-		console.log(uri);
 		const options = {
 			method: 'GET',
 			headers: {
@@ -77,8 +76,6 @@ export const NavbarPage = () => {
 				'Content-Type': 'application/json'
 			}
 		};
-		console.log(userLogin);
-			console.log("Hay login"+store.isLoged);
 			try {
 				const response = await fetch(uri, options);
 				if (response.status == 422) {
@@ -87,12 +84,10 @@ export const NavbarPage = () => {
 				}
 				const data = await response.json();
 				actions.setFavourites(data.result);
-				console.log(data);
 			} catch (error) {
 				console.log('Eroor fecth', error);
 				return;
 			}
-		favourite();
 	}
 	useEffect(() => {
 		if(userLogin){
