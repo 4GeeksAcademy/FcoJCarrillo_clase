@@ -159,6 +159,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				getActions().getUserContactList();
 			},
+			createUser: async()=>{
+				const url = `${getStore().host}/agendas/${getStore().user}`;
+				const dataToSend ={
+					"name": getStore.user
+				};
+				const options = {
+					method: 'Post',
+					headers : {
+						'Content-Type': 'application/json' 
+					},
+					body: JSON.stringify(dataToSend)
+				}
+				try {
+					const response = await fetch(url, options)
+					console.log(response);
+				} catch (error) {
+					console.log('Error', error.status, error.statusText);
+				}
+			},
 			updateContact: async (id, object)=>{
 				const url = `${getStore().host}/agendas/${getStore().user}/contacts/${id}`
 				console.log(id, object);

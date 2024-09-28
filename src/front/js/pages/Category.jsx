@@ -3,7 +3,10 @@ import { Context } from "../store/appContext.js";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link, useParams } from "react-router-dom";
-
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
 
 export const Category = () => {
     const param = useParams();
@@ -75,7 +78,8 @@ export const Category = () => {
             <h1 className="text-center">{param.category.toUpperCase()}</h1>
             {currentMap && currentMap.map((item) => {
                 return (
-                    <Card className="mx-2 my-2" style={{ width: '18rem' }} key={item.uid}>
+                    <div className="mx-2 my-2" style={{width: '18rem'}}>
+                    <Card key={item.uid}>
                         <Card.Img variant="top" src={`${image}/${item.uid}.jpg`}
                         onError={handleImgError} />
                         <Card.Body>
@@ -92,7 +96,7 @@ export const Category = () => {
                             <Button onClick={() =>addFavouriteApi(item.name)} variant="primary"><i className="far fa-heart"></i></Button>
                         </Card.Body>
                     </Card>
-                    //<i class="fas fa-id-card"></i>
+                    </div>
                 )
             })}
             </div>

@@ -34,10 +34,15 @@ export const Contact = () => {
     if(confirm('Do you want to edit this contact?')){
       console.log(idUser);
       await actions.updateContact(idUser,objeto);
-      navigate("/");
+      navigate("/Contact");
     }
     setEditContact(null);
     actions.getUserContactList();
+  }
+
+  const crearUser = async () => {
+    await actions.createUser();
+    navigate("/Form");
   }
 
   const edit = (id) => {
@@ -79,56 +84,60 @@ export const Contact = () => {
     <div className="container">
       <h1 className="text-center text-success">Contactos del usuario {store.user}</h1>
       <>
-        {store.contacts.map((item) =>
-          <div className="card mb-2" key={item.id}>
-            <div className="row g-0">
-              <div className="col-md-4">
-                <img src={rigoImageUrl} className="img-fluid rounded-start" alt="..." />
-              </div>
-              <div className="col-md-6">
-                <div className="card-body">
-                <span className="text-prima mt-1 d-block"><i className="fas fa-user"></i>
+      {store.contacts.length == 0 ?<h1>Crear un usuario de javi:  <button type="button" onClick={() => crearUser()} className="btn btn-primary"><i class="fas fa-plus-square"></i></button></h1>:
+      
+      store.contacts.map((item) =>
+        <div className="card mb-2" key={item.id}>
+          <div className="row g-0">
+            <div className="col-md-4">
+              <img src={rigoImageUrl} className="img-fluid rounded-start" alt="..." />
+            </div>
+            <div className="col-md-6">
+              <div className="card-body">
+              <span className="text-prima mt-1 d-block"><i className="fas fa-user"></i>
+                {editContact===item.id ?
+                  <input type="text" className="form-control" value={fullName} onChange={(event) => setFullName(event.target.value)} id="inputName" /> :
+                  <h5 className="card-title d-flex flex-row mb-3">{item.name}</h5>
+                }
+                </span>
+                <span className="text-prima mt-1 d-block"><i className="fas fa-envelope"></i>
                   {editContact===item.id ?
-                    <input type="text" className="form-control" value={fullName} onChange={(event) => setFullName(event.target.value)} id="inputName" /> :
-                    <h5 className="card-title d-flex flex-row mb-3">{item.name}</h5>
+                    <input type="text" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} id="inputName" />
+                    : <span className="text-prima mt-1 d-block">{item.email}</span>}
+              
+                </span>
+                <span className="text-prima mt-1 d-block"><i className="fas fa-phone"></i>
+                  {editContact===item.id ?
+                    <input type="text" className="form-control" value={phone} onChange={(event) => setPhone(event.target.value)} id="inputName" />
+                    :
+                    <p>{item.phone}</p>
                   }
                   </span>
-                  <span className="text-prima mt-1 d-block"><i className="fas fa-envelope"></i>
-                    {editContact===item.id ?
-                      <input type="text" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} id="inputName" />
-                      : <span className="text-prima mt-1 d-block">{item.email}</span>}
-                
-                  </span>
-                  <span className="text-prima mt-1 d-block"><i className="fas fa-phone"></i>
-                    {editContact===item.id ?
-                      <input type="text" className="form-control" value={phone} onChange={(event) => setPhone(event.target.value)} id="inputName" />
-                      :
-                      <p>{item.phone}</p>
-                    }
-                    </span>
-                  <span className="text-prima mt-1 d-block">
-                  <i className="fas fa-envelope"></i>
-                    {editContact===item.id ?
-
-                      <input type="text" className="form-control" value={address} onChange={(event) => setAddress(event.target.value)} id="inputName" />
-                      :
-                      <span className="text-prima mt-1 d-block">{item.address}</span>
-                    }
-                  
-                  </span>
-                </div>
-              </div>
-              <div className="col-md-2">
-                <div className="card-body d-flex justify-content-evenly">
-                  <button type="button" onClick={() =>edit(item.id)} className="btn btn-primary"><i className="fas fa-edit"></i></button>
+                <span className="text-prima mt-1 d-block">
+                <i className="fas fa-envelope"></i>
                   {editContact===item.id ?
-                  <button type="submit" onClick={(event) => saveChange(event,item.id)} className="btn btn-primary"><i className="far fa-save"></i></button>
-                  :<button type="button" onClick={() => deleteContacts(item.id)} className="btn btn-primary"><i className="fas fa-trash"></i></button>}
-                </div>
+
+                    <input type="text" className="form-control" value={address} onChange={(event) => setAddress(event.target.value)} id="inputName" />
+                    :
+                    <span className="text-prima mt-1 d-block">{item.address}</span>
+                  }
+                
+                </span>
+              </div>
+            </div>
+            <div className="col-md-2">
+              <div className="card-body d-flex justify-content-evenly">
+                <button type="button" onClick={() =>edit(item.id)} className="btn btn-primary"><i className="fas fa-edit"></i></button>
+                {editContact===item.id ?
+                <button type="submit" onClick={(event) => saveChange(event,item.id)} className="btn btn-primary"><i className="far fa-save"></i></button>
+                :<button type="button" onClick={() => deleteContacts(item.id)} className="btn btn-primary"><i className="fas fa-trash"></i></button>}
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
+      
+      
       </>
     </div>
   )
