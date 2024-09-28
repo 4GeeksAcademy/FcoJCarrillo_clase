@@ -1,9 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext.js";
 
 
 export const HomePage = () => {
     const { store, actions } = useContext(Context);
+    const userDatos = async () => {
+        const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+        const isLoged = JSON.parse(localStorage.getItem("isLoged"));
+        if (storedUser) {
+            actions.setCurrentUser(storedUser);
+        }
+        if (isLoged) {
+            actions.setIsLoged(isLoged);
+        }
+    };
+
+
+    useEffect(()=>{
+        userDatos();
+        actions.getUserContactList();
+
+      },[])
     return (
         //https://starwars-visualguide.com/#/
         <div className="container">

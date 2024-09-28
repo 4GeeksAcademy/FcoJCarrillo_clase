@@ -20,6 +20,8 @@ export const Contact = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [currentUser, setCurrentUser] = useState("");
+
 
   const handleEnviarDatos = async (event, idUser) => {
     event.preventDefault();
@@ -53,9 +55,14 @@ export const Contact = () => {
     setAddress(contact.address);
   }
 
-  useEffect(()=>{
-    actions.getUserContactList()
+  const userData = async ()=>{
+    setCurrentUser(await actions.currentUser());
+    console.log(currentUser);
     
+  }
+  useEffect(()=>{
+    userData();
+    actions.getUserContactList()
   },[])
 
   const saveChange = (event,id) =>{
